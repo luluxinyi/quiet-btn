@@ -1,4 +1,5 @@
-int dOut = 2;
+int dOut = 2;//DOUT接2号引脚
+int led = 8;//led接8号引脚
 int sample_Time = 10;
 unsigned long millisCurrent;
 unsigned long millisLast = 0;
@@ -8,7 +9,7 @@ int sampleBufferValue = 0;
 
 void setup() {
    Serial.begin(9600);
-   pinMode(8, OUTPUT);
+   pinMode(led, OUTPUT);
 }
 
 void loop() {
@@ -26,6 +27,7 @@ void loop() {
     millisLast = millisCurrent;
   }
 
+//声音超过threshold，点亮led灯
   if(sampleBufferValue > 200) {
     digitalWrite(8, HIGH);
   } else {
