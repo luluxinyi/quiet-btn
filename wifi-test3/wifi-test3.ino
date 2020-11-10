@@ -12,7 +12,6 @@
 
 const char ssid[] = "xinyi";
 const char pass[] = "xinyi123";
-int btnState = 0;
 
 WiFiClient net;
 MQTTClient client;
@@ -43,15 +42,15 @@ void messageReceived(String &topic, String &payload) {
 }
 
 int dOut = D3;//DOUT接D3号引脚
-int sound = 0;
-/*
-int sample_Time = 10;
+//int sound = 0;
+
+int sample_Time = 20;
 unsigned long millisCurrent;
 unsigned long millisLast = 0;
 unsigned long millisElapsed = 0;
 
 int sampleBufferValue = 0;
-*/
+
 
 void setup() {
   Serial.begin(115200);
@@ -68,14 +67,15 @@ void setup() {
 
 void loop() {
   client.loop();
-  delay(10);  // <- fixes some issues with WiFi stability
+  //delay(10);  // <- fixes some issues with WiFi stability
 
   if (!client.connected()) {
     connect();
   }
- sound = digitalRead(dOut);
- Serial.println(sound);
-/*
+ 
+ //sound = digitalRead(dOut);
+ //Serial.println(sound);
+
   millisCurrent = millis();
   millisElapsed = millisCurrent - millisLast;
 
@@ -88,12 +88,12 @@ void loop() {
     sampleBufferValue = 0;
     millisLast = millisCurrent;
   }
- */
+
 
 //publish a message roughly every second.
-  if (millis() - lastMillis > 100) {
-    lastMillis = millis();
-    client.publish((String)sound);
+  if (millis() - lastMillis > 500) {
+  lastMillis = millis();
+    client.publish((String)sampleBufferValue);
   }
 
 

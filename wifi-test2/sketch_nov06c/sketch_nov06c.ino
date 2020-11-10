@@ -1,11 +1,11 @@
 int dOut = D3;//DOUT接D3号引脚
 int led = D5;//led接D1号引脚
-int sample_Time = 10;
-unsigned long millisCurrent;
-unsigned long millisLast = 0;
-unsigned long millisElapsed = 0;
+int sample_Time = 1000;//每隔10毫秒对声音取个样
+unsigned long millisCurrent;//当前时间
+unsigned long millisLast = 0;//上次的时间
+unsigned long millisElapsed = 0;//经过的时间
 
-int sampleBufferValue = 0;
+int sampleBufferValue = 0;//在时间段内取了多少样
 
 void setup() {
    Serial.begin(9600);
