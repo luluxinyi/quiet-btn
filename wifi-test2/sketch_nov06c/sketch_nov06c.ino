@@ -1,5 +1,5 @@
-int dOut = 2;//DOUT接2号引脚
-int led = 8;//led接8号引脚
+int dOut = D3;//DOUT接D3号引脚
+int led = D5;//led接D1号引脚
 int sample_Time = 10;
 unsigned long millisCurrent;
 unsigned long millisLast = 0;
@@ -28,14 +28,10 @@ void loop() {
   }
 
 //声音超过threshold，点亮led灯
-/*10秒内，3次超过300，点亮led灯
- i为超过300的次数
- 
- */
   if(sampleBufferValue > 200) {
-    digitalWrite(8, HIGH);
-    delay(000);
+    digitalWrite(led, HIGH);
+    //delay(1000);
   } else {
-    digitalWrite(8, LOW);
+    digitalWrite(led, LOW);
   }
 }
