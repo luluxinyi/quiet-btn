@@ -26,7 +26,7 @@ void connect() {
   }
 
   Serial.print("\nconnecting...");
-  while (!client.connect("arduino", "quitebtn", "12345678")) {
+  while (!client.connect("soundSensor", "quitebtn", "12345678")) {
     Serial.print(".");
     delay(1000);
   }
@@ -93,7 +93,8 @@ void loop() {
 //publish a message roughly every second.
   if (millis() - lastMillis > 500) {
   lastMillis = millis();
-    client.publish((String)sampleBufferValue);
+    String msg = "{\"volume\":"+(String)sampleBufferValue+"}";
+    client.publish("/vol",msg);
   }
 
 

@@ -62,8 +62,9 @@ void loop() {
   // publish a message roughly every second.
   if (millis() - lastMillis > 1000) {
     lastMillis = millis();
-client.publish((String)btnState);
-    //client.publish("{\"btnState\":\"" + (String)btnState + "\"}");
+    String msg = "{\"btnState\":"+(String)btnState+"}";
+    client.publish("/btn",msg);//括号里要写1）topic，用于noodl；2）string
+    
   }
   
 }
