@@ -1,3 +1,5 @@
+#include <Arduino_JSON.h>
+
 // This example uses an Adafruit Huzzah ESP8266
 // to connect to shiftr.io.
 //
@@ -10,8 +12,10 @@
 #include <ESP8266WiFi.h>
 #include <MQTT.h>
 
+
 const char ssid[] = "xinyi";
 const char pass[] = "xinyi123";
+int turnOn = 0;
 
 WiFiClient net;
 MQTTClient client;
@@ -33,12 +37,29 @@ void connect() {
 
   Serial.println("\nconnected!");
 
-  client.subscribe("/hello");
-  // client.unsubscribe("/hello");
+  client.subscribe("/btn");
+  
 }
 
 void messageReceived(String &topic, String &payload) {
   Serial.println("incoming: " + topic + " - " + payload);
+  //订阅了多个topic时需要check
+
+    JSONVar myObject = JSON.parse(payload);
+  
+  if (JSON.typeof(myObject) == "undefined") {
+    Serial.println("Parsing input failed!");
+    return;
+  }
+
+  if (myObject.hasOwnProperty("btnState")) {
+    //Serial.print("myObject[\"btnState\"] = ");
+
+    //Serial.println((int) myObject["btnState"]);
+
+    turnOn = (int)myObject["btnState"];
+    //Serial.print((String)turnOn);
+  }
 }
 
 int dOut = D3;//DOUT接D3号引脚
@@ -53,6 +74,7 @@ int sampleBufferValue = 0;
 
 
 void setup() {
+  pinMode(D1, OUTPUT);
   Serial.begin(115200);
   WiFi.begin(ssid, pass);
 
@@ -66,6 +88,12 @@ void setup() {
 }
 
 void loop() {
+  if(turnOn == 1 ) {
+    digitalWrite(D2,HIGH);
+  } else {
+    digitalWrite(D2,LOW);
+  }
+  
   client.loop();
   //delay(10);  // <- fixes some issues with WiFi stability
 
